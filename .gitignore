@@ -220,3 +220,6 @@ __marimo__/
 
 # Sandbox for local development/testing/experimentation
 sandbox/
+
+# PEAR
+dn_allowlist
