@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apel-consumer-grid
+  labels:
+    app: apel-consumer-grid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apel-consumer-grid
+  template:
+    metadata:
+      labels:
+        app: apel-consumer-grid
+    spec:
+      restartPolicy: Always
+      securityContext:
+        runAsUser: 1000
+        runAsNonRoot: true
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+      containers:
+        - name: apel-consumer-grid
+          image: registry.cern.ch/wlcg-ops/apel-consumer:latest
+          imagePullPolicy: Always
+          command: ["/bin/bash", "./run.sh"]
+          env:
+            - name: SSM_DESTINATION
+              value: grid
+            - name: SSM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ssm-token
+                  key: token
+          volumeMounts:
+            - name: apel-consumer-output
+              mountPath: /var/spool/apel
+            - name: globus-certs
+              mountPath: /home/apeluser/.globus
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 1
+              memory: 1Gi
+      volumes:
+        - name: apel-consumer-output
+          persistentVolumeClaim:
+            claimName: apel-consumer-output
+        - name: globus-certs
+          secret:
+            secretName: globus-certs
+            items:
+              - key: WLCG_usercert.pem
+                path: WLCG_usercert.pem
+                mode: 0444
+              - key: WLCG_userkey.pem
+                path: WLCG_userkey.pem
+                mode: 0400
