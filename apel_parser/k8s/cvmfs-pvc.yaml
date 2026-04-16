@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cvmfs
+spec:
+  accessModes:
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1 # Volume size value has no effect and is ignored by the driver, but must be non-zero.
+  storageClassName: cvmfs
