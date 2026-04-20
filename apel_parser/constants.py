@@ -5,6 +5,8 @@ from typing import Final
 CRIC_RCSITE_API: Final[str] = "https://wlcg-cric.cern.ch/api/core/rcsite/query/?json&state=ANY"
 CRIC_REQUEST_TIMEOUT_SECONDS: Final[int] = 30
 
+IGTF_TRUST_BUNDLE_PATH: Final[str] = "/cvmfs/grid.cern.ch/etc/grid-security/certificates"
+
 MQ_USERNAME: Final[str] = str(os.getenv("MQ_USERNAME"))
 MQ_PASSWORD: Final[str] = str(os.getenv("MQ_PASSWORD"))
 MQ_HOST: Final[str] = str(os.getenv("MQ_HOST"))

@@ -107,7 +107,7 @@ def fetch_cric_topology(api: str | None = None) -> dict[str, Any]:
         response = requests.get(
             target_api,
             timeout=constants.CRIC_REQUEST_TIMEOUT_SECONDS,
-            verify="/cvmfs/grid.cern.ch/etc/grid-security/certificates"
+            verify=constants.IGTF_TRUST_BUNDLE_PATH,
         )
         response.raise_for_status()
         payload = response.json()
