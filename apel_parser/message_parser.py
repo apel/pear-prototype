@@ -202,15 +202,15 @@ class APELMessageParser:
 
                 if self.config.wlcg_only and vo.lower() not in constants.WLCG_VOS:
                     continue
-
-                wc_time = _safe_float(rec.get("WallDuration", 0), default=0.0) / SECONDS_PER_HOUR
+                
+                wc_time = _safe_float(rec.get("WallDuration"), default=0.0) / SECONDS_PER_HOUR
                 benchmark, wc_work = self.parse_normalised_computing_duration(rec.get("NormalisedWallDuration"))
                 wc_work = wc_work / SECONDS_PER_HOUR
-                cpu_time = _safe_float(rec.get("CpuDuration", 0), default=0.0) / SECONDS_PER_HOUR
+                cpu_time = _safe_float(rec.get("CpuDuration"), default=0.0) / SECONDS_PER_HOUR
                 _, cpu_work = self.parse_normalised_computing_duration(rec.get("NormalisedCpuDuration"))
                 cpu_work = cpu_work / SECONDS_PER_HOUR
                 cpu_eff = 0
-                number_of_jobs = _safe_int(rec.get("NumberOfJobs", 0), default=0)
+                number_of_jobs = _safe_int(rec.get("NumberOfJobs"), default=0)
 
                 site_info = self.resolve_site(site, vo, year, month)
                 if site_info is None:
