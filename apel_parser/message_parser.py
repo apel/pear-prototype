@@ -211,7 +211,6 @@ class APELMessageParser:
                 cpu_time = _safe_float(rec.get("CpuDuration"), default=0.0) / SECONDS_PER_HOUR
                 _, cpu_work = self.parse_normalised_computing_duration(rec.get("NormalisedCpuDuration"))
                 cpu_work = cpu_work / SECONDS_PER_HOUR
-                cpu_eff = 0
                 number_of_jobs = _safe_int(rec.get("NumberOfJobs"), default=0)
 
                 site_info = self.resolve_site(site, vo, year, month)
@@ -251,7 +250,6 @@ class APELMessageParser:
                 ce_bucket[ce_key]["raw_wc_work"] += wc_work
                 ce_bucket[ce_key]["raw_cpu_time"] += cpu_time
                 ce_bucket[ce_key]["raw_cpu_work"] += cpu_work
-                ce_bucket[ce_key]["raw_cpu_eff"] += cpu_eff
                 ce_bucket[ce_key]["number_of_jobs"] += number_of_jobs
 
                 agg_key: AggKey = (site, vo, benchmark)
@@ -270,7 +268,6 @@ class APELMessageParser:
                 agg_bucket[agg_key]["raw_wc_work"] += wc_work
                 agg_bucket[agg_key]["raw_cpu_time"] += cpu_time
                 agg_bucket[agg_key]["raw_cpu_work"] += cpu_work
-                agg_bucket[agg_key]["raw_cpu_eff"] += cpu_eff
                 agg_bucket[agg_key]["number_of_jobs"] += number_of_jobs
 
         return per_ce, agg
@@ -304,6 +301,10 @@ class APELMessageParser:
 
         docs: list[OrderedDict[str, Any]] = []
         for entry in bucket.values():
+            wc_time = _safe_float(entry.get("raw_wc_time"), default=0.0)
+            cpu_time = _safe_float(entry.get("raw_cpu_time"), default=0.0)
+            cpu_eff = cpu_time / wc_time if wc_time > 0 else 0.0
+
             doc: OrderedDict[str, Any] = OrderedDict()
             for key in desired_order:
                 if key == "idb_tags":
@@ -314,6 +315,8 @@ class APELMessageParser:
                     doc[key] = constants.MESSAGE_INFLUXDB_MEASUREMENT
                 elif key == "timestamp":
                     doc[key] = timestamp
+                elif key == "raw_cpu_eff":
+                    doc[key] = cpu_eff
                 else:
                     doc[key] = entry.get(key, 0)
             docs.append(doc)
