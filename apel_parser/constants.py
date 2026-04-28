@@ -7,10 +7,12 @@ CRIC_REQUEST_TIMEOUT_SECONDS: Final[int] = 30
 
 IGTF_TRUST_BUNDLE_PATH: Final[str] = "/cvmfs/grid.cern.ch/etc/grid-security/certificates"
 
-MQ_USERNAME: Final[str] = str(os.getenv("MQ_USERNAME"))
-MQ_PASSWORD: Final[str] = str(os.getenv("MQ_PASSWORD"))
-MQ_HOST: Final[str] = str(os.getenv("MQ_HOST"))
-MQ_PORT: Final[int] = int(os.getenv("MQ_PORT"))
+MQ_CONFIG: Final[dict[str, str | None]] = {
+    "host": os.getenv("MQ_HOST"),
+    "port": os.getenv("MQ_PORT"),
+    "username": os.getenv("MQ_USERNAME"),
+    "password": os.getenv("MQ_PASSWORD"),
+}
 
 MESSAGE_TOPIC: Final[str] = "wlcgops.accounting.space"
 MESSAGE_PRODUCER: Final[str] = "wlcgops"

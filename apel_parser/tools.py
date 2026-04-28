@@ -86,11 +86,15 @@ class PublishConfigError(RuntimeError):
 
 def publish(file_path: str | Path) -> None:
     """Publish accounting data from a JSON file to the message broker."""
+    mq_config = constants.MQ_CONFIG
+    if any(value is None for value in mq_config.values()):
+        raise PublishConfigError("Missing required MQ environment variables")
+
     config = {
-        "host": constants.MQ_HOST,
-        "port": constants.MQ_PORT,
-        "username": constants.MQ_USERNAME,
-        "password": constants.MQ_PASSWORD,
+        "host": str(mq_config["host"]),
+        "port": int(mq_config["port"]),
+        "username": str(mq_config["username"]),
+        "password": str(mq_config["password"]),
         "topic": constants.MESSAGE_TOPIC,
     }
     with Publisher(**config) as pub:
