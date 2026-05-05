@@ -56,7 +56,7 @@ class ParserConfig:
     months: int
     output_dir: Path
     publish: bool = False
-    wlcg_only: bool = False
+    lhc_only: bool = False
 
 
 def _safe_float(value: Any, default: float = 0.0) -> float:
@@ -75,7 +75,7 @@ def _safe_int(value: Any, default: int = 0) -> int:
 
 def _canonicalize_vo(raw_vo: str) -> str:
     """Return canonical VO name if known, otherwise return VO name unchanged."""
-    return constants.WLCG_VOS.get(raw_vo.lower(), raw_vo)
+    return constants.LHC_VOS.get(raw_vo.lower(), raw_vo)
 
 
 class APELMessageParser:
@@ -200,7 +200,7 @@ class APELMessageParser:
                     )
                     continue
 
-                if self.config.wlcg_only and vo.lower() not in constants.WLCG_VOS:
+                if self.config.lhc_only and vo.lower() not in constants.LHC_VOS:
                     continue
                 
                 processors = _safe_int(rec.get("Processors"), default=1)
@@ -388,14 +388,14 @@ def get_data_for_period(
     messages_dir: str,
     months: int,
     publish: bool = False,
-    wlcg_only: bool = False,
+    lhc_only: bool = False,
 ) -> None:
     config = ParserConfig(
         messages_dir=messages_dir,
         months=months,
         output_dir=Path(output_dir),
         publish=publish,
-        wlcg_only=wlcg_only,
+        lhc_only=lhc_only,
     )
     APELMessageParser(config).process()
 
@@ -427,9 +427,9 @@ def parse_args() -> argparse.Namespace:
         help="Months before current date to ingest. Default: 1",
     )
     parser.add_argument(
-        "--wlcg",
+        "--lhc-only",
         action="store_true",
-        help="Only ingest records of WLCG VOs: ATLAS, CMS, ALICE, LHCb",
+        help="Only ingest records of LHC VOs: ATLAS, CMS, ALICE, LHCb",
     )
     parser.add_argument(
         "-p",
@@ -459,7 +459,7 @@ def main() -> None:
         args.messages_dir,
         args.months,
         args.publish,
-        args.wlcg,
+        args.lhc_only,
     )
 
 

@@ -24,7 +24,7 @@ GRID_INFRASTRUCTURE: Final[str] = "Grid"
 
 DEFAULT_MESSAGES_DIR: Final[str] = "/var/spool/apel/grid/incoming"
 
-WLCG_VOS: Final[dict[str, str]] = {
+LHC_VOS: Final[dict[str, str]] = {
     "atlas": "ATLAS",
     "cms": "CMS",
     "alice": "ALICE",
