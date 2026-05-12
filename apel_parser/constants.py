@@ -25,6 +25,8 @@ LHC_VOS: Final[dict[str, str]] = {
     "lhcb": "LHCb",
 }
 
+NON_WLCG_TIER: Final[str] = "NON-WLCG-Tier"
+
 NON_MOU_FEDERATION: Final[str] = "NON-MOU-Federation"
 DESY_FEDERATIONS: Final[dict[str, dict[str, object]]] = {
     "DE-DESY-ATLAS-T2": {
@@ -40,6 +42,7 @@ DESY_FEDERATIONS: Final[dict[str, dict[str, object]]] = {
         "vo": "cms",
     },
 }
+NON_WLCG_FEDERATION: Final[str] = "NON-WLCG-Federation"
 
 MQ_CONFIG: Final[dict[str, str | None]] = {
     "host": os.getenv("MQ_HOST"),

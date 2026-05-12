@@ -126,31 +126,36 @@ class APELMessageParser:
         """Look up tier, country, and federation for an rcsite name."""
         if site_name not in self.cric_data:
             return None
-
+        
         rcsite = self.cric_data[site_name]
+        
         country = rcsite.get("country_code", constants.UNKNOWN)
+        
+        if vo.lower() in constants.LHC_VOS:
+            tier_level = rcsite.get("rc_tier_level")
+            if site_name == "CERN-PROD" or tier_level == 0:
+                tier = "Tier-0"
+            elif tier_level == 1:
+                tier = "Tier-1"
+            elif tier_level == 2:
+                tier = "Tier-2"
+            else:
+                tier = f"Tier-{tier_level}" if tier_level is not None else constants.UNKNOWN
 
-        tier_level = rcsite.get("rc_tier_level")
-        if site_name == "CERN-PROD" or tier_level == 0:
-            tier = "Tier-0"
-        elif tier_level == 1:
-            tier = "Tier-1"
-        elif tier_level == 2:
-            tier = "Tier-2"
+            cric_federations = rcsite.get("federations", [])
+            if not cric_federations:
+                federation = constants.NON_MOU_FEDERATION
+            elif len(cric_federations) == 1:
+                federation = cric_federations[0]
+            else:
+                federation = constants.UNKNOWN
+            if desy_federation_override := DESY_FEDERATIONS_OVERRIDES.get((site_name, vo.lower())):
+                federation = desy_federation_override
+            elif site_name == "JINR-LCG2":
+                federation = "JINR-LCG2" if date(year, month, 1) >= date(2024, 11, 1) else "RU-RDIG"
         else:
-            tier = f"Tier-{tier_level}" if tier_level is not None else constants.UNKNOWN
- 
-        cric_federations = rcsite.get("federations", [])
-        if not cric_federations:
-            federation = constants.NON_MOU_FEDERATION
-        elif len(cric_federations) == 1:
-            federation = cric_federations[0]
-        else:
-            federation = constants.UNKNOWN
-        if desy_federation_override := DESY_FEDERATIONS_OVERRIDES.get((site_name, vo.lower())):
-            federation = desy_federation_override
-        elif site_name == "JINR-LCG2":
-            federation = "JINR-LCG2" if date(year, month, 1) >= date(2024, 11, 1) else "RU-RDIG"
+            tier = constants.NON_WLCG_TIER
+            federation = constants.NON_WLCG_FEDERATION
 
         return {"tier": tier, "country": country, "federation": federation}
 
