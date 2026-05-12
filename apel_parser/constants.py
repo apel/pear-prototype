@@ -47,6 +47,6 @@ MQ_CONFIG: Final[dict[str, str | None]] = {
     "username": os.getenv("MQ_USERNAME"),
     "password": os.getenv("MQ_PASSWORD"),
 }
-MESSAGE_TOPIC: Final[str] = "wlcgops.accounting.space"
-MESSAGE_PRODUCER: Final[str] = "wlcgops"
-MESSAGE_INFLUXDB_MEASUREMENT: Final[str] = "accounting.wau.summary_apel_2"
+MESSAGE_TOPIC: Final[str] = os.getenv("MESSAGE_TOPIC")
+MESSAGE_PRODUCER: Final[str] = os.getenv("MESSAGE_PRODUCER")
+MESSAGE_INFLUXDB_MEASUREMENT: Final[str] = os.getenv("MESSAGE_INFLUXDB_MEASUREMENT")

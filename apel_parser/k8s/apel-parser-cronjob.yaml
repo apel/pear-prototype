@@ -54,6 +54,12 @@ spec:
                     secretKeyRef:
                       name: mq-creds
                       key: port
+                - name: MESSAGE_TOPIC
+                  value: "wlcgops.accounting.space"
+                - name: MESSAGE_PRODUCER
+                  value: "wlcgops"
+                - name: MESSAGE_INFLUXDB_MEASUREMENT
+                  value: "accounting.wau.summary_apel_3"
               volumeMounts:
                 - name: apel-consumer-output
                   mountPath: /var/spool/apel
