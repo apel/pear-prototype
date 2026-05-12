@@ -141,7 +141,12 @@ class APELMessageParser:
             tier = f"Tier-{tier_level}" if tier_level is not None else constants.UNKNOWN
  
         cric_federations = rcsite.get("federations", [])
-        federation = cric_federations[0] if cric_federations else constants.NON_MOU_FEDERATION
+        if not cric_federations:
+            federation = constants.NON_MOU_FEDERATION
+        elif len(cric_federations) == 1:
+            federation = cric_federations[0]
+        else:
+            federation = constants.UNKNOWN
         if desy_federation_override := DESY_FEDERATIONS_OVERRIDES.get((site_name, vo.lower())):
             federation = desy_federation_override
         elif site_name == "JINR-LCG2":
