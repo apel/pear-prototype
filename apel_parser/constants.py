@@ -2,27 +2,21 @@ import os
 from typing import Final
 
 
-CRIC_RCSITE_API: Final[str] = "https://wlcg-cric.cern.ch/api/core/rcsite/query/?json&state=ANY"
-CRIC_REQUEST_TIMEOUT_SECONDS: Final[int] = 30
+DEFAULT_MESSAGES_DIR: Final[str] = "/var/spool/apel/grid/incoming"
 
-IGTF_TRUST_BUNDLE_PATH: Final[str] = "/cvmfs/grid.cern.ch/etc/grid-security/certificates"
-
-MQ_CONFIG: Final[dict[str, str | None]] = {
-    "host": os.getenv("MQ_HOST"),
-    "port": os.getenv("MQ_PORT"),
-    "username": os.getenv("MQ_USERNAME"),
-    "password": os.getenv("MQ_PASSWORD"),
+APEL_DIRQ_SCHEMA: Final[dict[str, str]] = {
+    "body": "string",
+    "signer": "string",
+    "empaid": "string?",
 }
 
-MESSAGE_TOPIC: Final[str] = "wlcgops.accounting.space"
-MESSAGE_PRODUCER: Final[str] = "wlcgops"
-MESSAGE_INFLUXDB_MEASUREMENT: Final[str] = "accounting.wau.summary_apel_2"
+CRIC_RCSITE_API: Final[str] = "https://wlcg-cric.cern.ch/api/core/rcsite/query/?json&state=ANY"
+CRIC_REQUEST_TIMEOUT_SECONDS: Final[int] = 30
+IGTF_TRUST_BUNDLE_PATH: Final[str] = "/cvmfs/grid.cern.ch/etc/grid-security/certificates"
 
 UNKNOWN: Final[str] = "UNKNOWN"
 
 GRID_INFRASTRUCTURE: Final[str] = "Grid"
-
-DEFAULT_MESSAGES_DIR: Final[str] = "/var/spool/apel/grid/incoming"
 
 LHC_VOS: Final[dict[str, str]] = {
     "atlas": "ATLAS",
@@ -31,12 +25,7 @@ LHC_VOS: Final[dict[str, str]] = {
     "lhcb": "LHCb",
 }
 
-APEL_DIRQ_SCHEMA: Final[dict[str, str]] = {
-    "body": "string",
-    "signer": "string",
-    "empaid": "string?",
-}
-
+NON_MOU_FEDERATION: Final[str] = "NON-MOU-Federation"
 DESY_FEDERATIONS: Final[dict[str, dict[str, object]]] = {
     "DE-DESY-ATLAS-T2": {
         "sites": ["DESY-HH", "DESY-ZN"],
@@ -52,4 +41,12 @@ DESY_FEDERATIONS: Final[dict[str, dict[str, object]]] = {
     },
 }
 
-NON_MOU_FEDERATION: Final[str] = "NON-MOU-Federation"
+MQ_CONFIG: Final[dict[str, str | None]] = {
+    "host": os.getenv("MQ_HOST"),
+    "port": os.getenv("MQ_PORT"),
+    "username": os.getenv("MQ_USERNAME"),
+    "password": os.getenv("MQ_PASSWORD"),
+}
+MESSAGE_TOPIC: Final[str] = "wlcgops.accounting.space"
+MESSAGE_PRODUCER: Final[str] = "wlcgops"
+MESSAGE_INFLUXDB_MEASUREMENT: Final[str] = "accounting.wau.summary_apel_2"
