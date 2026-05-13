@@ -133,14 +133,12 @@ class APELMessageParser:
         
         if vo.lower() in constants.LHC_VOS:
             tier_level = rcsite.get("rc_tier_level")
-            if site_name == "CERN-PROD" or tier_level == 0:
+            if site_name == "CERN-PROD":
                 tier = "Tier-0"
-            elif tier_level == 1:
-                tier = "Tier-1"
-            elif tier_level == 2:
-                tier = "Tier-2"
+            elif tier_level in constants.WLCG_TIERS:
+                tier = f"Tier-{tier_level}"
             else:
-                tier = f"Tier-{tier_level}" if tier_level is not None else constants.UNKNOWN
+                tier = constants.UNKNOWN
 
             cric_federations = rcsite.get("federations", [])
             if not cric_federations:

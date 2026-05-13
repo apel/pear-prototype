@@ -25,6 +25,7 @@ LHC_VOS: Final[dict[str, str]] = {
     "lhcb": "LHCb",
 }
 
+WLCG_TIERS: Final[set[int]] = {0, 1, 2, 3}
 NON_WLCG_TIER: Final[str] = "NON-WLCG-Tier"
 
 NON_MOU_FEDERATION: Final[str] = "NON-MOU-Federation"
