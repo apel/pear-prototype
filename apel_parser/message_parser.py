@@ -37,6 +37,7 @@ class SiteInfo(TypedDict):
     tier: str
     country: str
     federation: str
+    roc: str
 
 
 class MessagePayload(TypedDict):
@@ -123,7 +124,7 @@ class APELMessageParser:
             yield current
 
     def resolve_site(self, site_name: str, vo: str, year: int, month: int) -> SiteInfo | None:
-        """Look up tier, country, and federation for an rcsite name."""
+        """Look up tier, country, federation, and roc for an rcsite name."""
         if site_name not in self.cric_data:
             return None
         
@@ -155,7 +156,9 @@ class APELMessageParser:
             tier = constants.NON_WLCG_TIER
             federation = constants.NON_WLCG_FEDERATION
 
-        return {"tier": tier, "country": country, "federation": federation}
+        roc = rcsite.get("roc", constants.UNKNOWN)
+        
+        return {"tier": tier, "country": country, "federation": federation, "roc": roc}
 
     def load_messages(self) -> tuple[Any, list[MessagePayload]]:
         """Lock and read all available dirq messages, returning payloads."""
@@ -230,6 +233,7 @@ class APELMessageParser:
                         "tier": constants.UNKNOWN,
                         "country": constants.UNKNOWN,
                         "federation": constants.UNKNOWN,
+                        "roc": constants.UNKNOWN,
                     }
 
                 meta = {
@@ -291,7 +295,7 @@ class APELMessageParser:
         if with_ce:
             idb_tags.append("ce")
 
-        desired_order = ["vo", "tier", "country", "federation", "site", "infrastructure", "benchmark"]
+        desired_order = ["vo", "tier", "country", "federation", "roc", "site", "infrastructure", "benchmark"]
         if with_ce:
             desired_order.append("ce")
         desired_order.extend([
