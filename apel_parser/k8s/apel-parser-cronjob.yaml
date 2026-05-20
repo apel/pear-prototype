@@ -29,6 +29,8 @@ spec:
                 - "/var/spool/apel/parser_output"
                 - "--messages-dir"
                 - "/var/spool/apel/grid/incoming"
+                - "--infra-type"
+                - "grid"
                 - "-m"
                 - "15"
                 # - "--lhc-only"
