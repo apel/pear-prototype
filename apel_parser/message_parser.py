@@ -311,10 +311,19 @@ class APELMessageParser:
 
         return queue, locked_messages
 
-    def ingest(self, messages: list[MessagePayload]) -> tuple[dict[MonthKey, Bucket], dict[MonthKey, Bucket]]:
-        """Parse APEL payloads and return per-CE and aggregated monthly buckets."""
-        per_ce: dict[MonthKey, Bucket] = {}
+    def ingest(
+        self, messages: list[MessagePayload]
+    ) -> tuple[dict[MonthKey, Bucket], dict[MonthKey, Bucket] | None]:
+        """
+        Parse APEL payloads and return aggregated and per-CE monthly buckets.
+
+        The per-CE bucket is `None` when per-CE aggregation is not applicable
+        for the configured infrastructure type (e.g. cloud).
+        """
         agg: dict[MonthKey, Bucket] = {}
+        per_ce: dict[MonthKey, Bucket] | None = (
+            {} if self.config.infra_type == constants.GRID_INFRASTRUCTURE else None
+        )
 
         for message in messages:
             msgid = message["msgid"]
@@ -331,11 +340,12 @@ class APELMessageParser:
                     agg_bucket[agg_key] = self._initialize_bucket_entry(record, include_ce=False)
                 self._accumulate_bucket_entry(agg_bucket[agg_key], record)
 
-                ce_key: PerCeKey = (record["site"], record["vo"], record["ce"], record["benchmark"])
-                ce_bucket = per_ce.setdefault(month_key, {})
-                if ce_key not in ce_bucket:
-                    ce_bucket[ce_key] = self._initialize_bucket_entry(record, include_ce=True)
-                self._accumulate_bucket_entry(ce_bucket[ce_key], record)
+                if per_ce is not None:
+                    ce_key: PerCeKey = (record["site"], record["vo"], record["ce"], record["benchmark"])
+                    ce_bucket = per_ce.setdefault(month_key, {})
+                    if ce_key not in ce_bucket:
+                        ce_bucket[ce_key] = self._initialize_bucket_entry(record, include_ce=True)
+                    self._accumulate_bucket_entry(ce_bucket[ce_key], record)
 
         return agg, per_ce
 
@@ -375,20 +385,23 @@ class APELMessageParser:
             docs.append(doc)
         return docs
 
-    def write_outputs(self, agg: dict[MonthKey, Bucket], per_ce: dict[MonthKey, Bucket]) -> None:
-        all_months = sorted(set(per_ce) | set(agg))
+    def write_outputs(
+        self, agg: dict[MonthKey, Bucket], per_ce: dict[MonthKey, Bucket] | None
+    ) -> None:
+        """Write aggregated (and, for grid, per-CE) JSON output files for each month."""
+        all_months = sorted(set(per_ce or {}) | set(agg))
 
         for year, month in all_months:
             LOG.info("Writing data for %02d/%d", month, year)
 
             agg_docs = self.build_docs(agg.get((year, month), {}), year, month, with_ce=False)
-            ce_docs = self.build_docs(per_ce.get((year, month), {}), year, month, with_ce=True)
-
             agg_path = self.config.output_dir / f"data_cpu_acc_{year}_{month}.json"
-            ce_path = self.config.output_dir / f"data_cpu_acc_ce_{year}_{month}.json"
-
             agg_path.write_text(json.dumps(agg_docs, indent=4), encoding="utf-8")
-            ce_path.write_text(json.dumps(ce_docs, indent=4), encoding="utf-8")
+
+            if per_ce is not None:
+                ce_docs = self.build_docs(per_ce.get((year, month), {}), year, month, with_ce=True)
+                ce_path = self.config.output_dir / f"data_cpu_acc_ce_{year}_{month}.json"
+                ce_path.write_text(json.dumps(ce_docs, indent=4), encoding="utf-8")
 
             if self.config.publish:
                 publish(str(agg_path))
