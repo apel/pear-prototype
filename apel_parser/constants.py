@@ -55,8 +55,17 @@ NON_WLCG_FEDERATION: Final[str] = "NON-WLCG-Federation"
 # PRODUCED ACCOUNTING DATA
 # ==============================================================================
 
-GRID_INFRASTRUCTURE: Final[str] = "Grid"
-CLOUD_INFRASTRUCTURE: Final[str] = "Cloud"
+GRID_INFRA: Final[str] = "Grid"
+GRID_LOCAL_INFRA: Final[str] = "Grid-Local"
+CLOUD_INFRA: Final[str] = "Cloud"
+APEL_INFRA_TYPES: Final[dict[str, str]] = {
+    "grid": GRID_INFRA,
+    "cloud": CLOUD_INFRA,
+}
+GRID_INFRA_SUBTYPES: Final[dict[str, str]] = {
+    "grid": GRID_INFRA,
+    "local": GRID_LOCAL_INFRA,
+}
 
 COMMON_ACCOUNTING_FIELDS: Final[list[str]] = [
     "raw_wc_time",
@@ -70,18 +79,38 @@ GRID_ONLY_ACCOUNTING_FIELDS: Final[list[str]] = [
 ]
 CLOUD_ONLY_ACCOUNTING_FIELDS: Final[list[str]] = [
 ]
-ALL_ACCOUNTING_FIELDS: Final[list[str]] = COMMON_ACCOUNTING_FIELDS + GRID_ONLY_ACCOUNTING_FIELDS + CLOUD_ONLY_ACCOUNTING_FIELDS
 
-INFLUXDB_TAGS: Final[list[str]] = [
-    "vo", "tier", "country", "federation", "site", "infrastructure", "benchmark"
+SITE_METADATA_FIELDS: Final[list[str]] = [
+    "roc"
 ]
 
-PRODUCED_DOC_FIELDS: Final[list[str]] = (
+INFLUXDB_TAGS: Final[list[str]] = [
+    "vo", "tier", "country", "federation", "site", "infra", "benchmark"
+]
+
+PRODUCED_DOC_METADATA_FIELDS: Final[list[str]] = [
+    "idb_tags",
+    "producer",
+    "type",
+    "timestamp",
+]
+PRODUCED_DOC_COMMON_FIELDS: Final[list[str]] = (
     INFLUXDB_TAGS
-    + ["roc"]
-    + ALL_ACCOUNTING_FIELDS
-    + ["idb_tags", "producer", "type", "timestamp"]
+    + SITE_METADATA_FIELDS
+    + COMMON_ACCOUNTING_FIELDS
 )
+PRODUCED_DOC_FIELDS: Final[dict[str, list[str]]] = {
+    GRID_INFRA: (
+        PRODUCED_DOC_COMMON_FIELDS
+        + GRID_ONLY_ACCOUNTING_FIELDS
+        + PRODUCED_DOC_METADATA_FIELDS
+    ),
+    CLOUD_INFRA: (
+        PRODUCED_DOC_COMMON_FIELDS
+        + CLOUD_ONLY_ACCOUNTING_FIELDS
+        + PRODUCED_DOC_METADATA_FIELDS
+    )
+}
 
 # ==============================================================================
 # PUBLISHED MESSAGES - MONIT

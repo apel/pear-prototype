@@ -6,7 +6,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Any, Iterator, TypedDict
+from typing import Any, Iterator, NotRequired, TypedDict
 
 try:  # Package imports
     from . import constants
@@ -49,19 +49,19 @@ class ParsedAccountingRecord(TypedDict):
     month: int
     site: str
     vo: str
-    infrastructure: str
+    infra: str
     benchmark: str
     tier: str
     country: str
     federation: str
     roc: str
-    ce: str
     raw_wc_time: float
     raw_wc_work: float
     raw_cpu_time: float
     raw_cpu_work: float
     raw_cpu_eff: float
-    number_of_jobs: int
+    ce: NotRequired[str]
+    number_of_jobs: NotRequired[int]
 
 
 MonthKey = tuple[int, int]
@@ -160,7 +160,6 @@ class APELMessageParser:
 
         site = rec.get("Site", "").strip()
         vo = _canonicalize_vo(rec.get("VO", "").strip())
-        ce = rec.get("SubmitHost", "").strip() or "None"
         if not site or not vo:
             LOG.warning(
                 "Skipping record missing required Site/VO (msgid=%s, year=%s, month=%s)",
@@ -169,9 +168,11 @@ class APELMessageParser:
                 rec.get("Month"),
             )
             return None
-
         if self.config.lhc_only and vo.lower() not in constants.LHC_VOS:
             return None
+        infra = rec.get("Infrastructure", "").strip()
+        infra = constants.GRID_INFRA_SUBTYPES["grid"] if not infra.lower() == "local" else constants.GRID_INFRA_SUBTYPES["local"]
+        ce = rec.get("SubmitHost", "").strip() or constants.UNKNOWN
 
         processors = max(1, _safe_int(rec.get("Processors"), default=1))
         wc_time = _safe_float(rec.get("WallDuration"), default=0.0)
@@ -200,7 +201,7 @@ class APELMessageParser:
             "month": month,
             "site": site,
             "vo": vo,
-            "infrastructure": constants.GRID_INFRASTRUCTURE,
+            "infra": infra,
             "benchmark": benchmark,
             "tier": site_info["tier"],
             "country": site_info["country"],
@@ -216,39 +217,45 @@ class APELMessageParser:
         }
 
     @staticmethod
-    def _initialize_bucket_entry(record: ParsedAccountingRecord, include_ce: bool = False) -> dict[str, Any]:
+    def _initialize_bucket_entry(
+        record: ParsedAccountingRecord,
+        infra_type: str,
+        include_ce: bool = False,
+    ) -> dict[str, Any]:
         """Create a new bucket entry from a normalized accounting record."""
         entry: dict[str, Any] = {
             "site": record["site"],
             "vo": record["vo"],
-            "infrastructure": record["infrastructure"],
+            "infra": record["infra"],
             "benchmark": record["benchmark"],
             "tier": record["tier"],
             "country": record["country"],
             "federation": record["federation"],
             "roc": record["roc"],
         }
-        if include_ce:
+        if infra_type == constants.GRID_INFRA and include_ce:
             entry["ce"] = record["ce"]
 
-        for field in constants.ALL_ACCOUNTING_FIELDS:
+        for field in constants.COMMON_ACCOUNTING_FIELDS:
             entry[field] = 0.0
-        entry["number_of_jobs"] = 0
+        if infra_type == constants.GRID_INFRA:
+            entry["number_of_jobs"] = 0
 
         return entry
 
     @staticmethod
-    def _accumulate_bucket_entry(entry: dict[str, Any], record: ParsedAccountingRecord) -> None:
+    def _accumulate_bucket_entry(entry: dict[str, Any], record: ParsedAccountingRecord, infra_type: str) -> None:
         """Add a normalized accounting record into a bucket entry."""
         entry["raw_wc_time"] += record["raw_wc_time"]
         entry["raw_wc_work"] += record["raw_wc_work"]
         entry["raw_cpu_time"] += record["raw_cpu_time"]
         entry["raw_cpu_work"] += record["raw_cpu_work"]
-        entry["number_of_jobs"] += record["number_of_jobs"]
+        if infra_type == constants.GRID_INFRA:
+            entry["number_of_jobs"] += record["number_of_jobs"]
 
     def _extract_record(self, rec: dict[str, str], msgid: str) -> ParsedAccountingRecord | None:
         """Dispatch extraction based on the parser infra type selected from CLI."""
-        if self.config.infra_type == constants.GRID_INFRASTRUCTURE:
+        if self.config.infra_type == constants.GRID_INFRA:
             return self._extract_grid_record(rec, msgid)
         raise ValueError(f"Unsupported infra type: {self.config.infra_type}")
 
@@ -322,7 +329,7 @@ class APELMessageParser:
         """
         agg: dict[MonthKey, Bucket] = {}
         per_ce: dict[MonthKey, Bucket] | None = (
-            {} if self.config.infra_type == constants.GRID_INFRASTRUCTURE else None
+            {} if self.config.infra_type == constants.GRID_INFRA else None
         )
 
         for message in messages:
@@ -337,27 +344,33 @@ class APELMessageParser:
                 agg_key: AggKey = (record["site"], record["vo"], record["benchmark"])
                 agg_bucket = agg.setdefault(month_key, {})
                 if agg_key not in agg_bucket:
-                    agg_bucket[agg_key] = self._initialize_bucket_entry(record, include_ce=False)
-                self._accumulate_bucket_entry(agg_bucket[agg_key], record)
+                    agg_bucket[agg_key] = self._initialize_bucket_entry(record, self.config.infra_type, include_ce=False)
+                self._accumulate_bucket_entry(agg_bucket[agg_key], record, self.config.infra_type)
 
                 if per_ce is not None:
                     ce_key: PerCeKey = (record["site"], record["vo"], record["ce"], record["benchmark"])
                     ce_bucket = per_ce.setdefault(month_key, {})
                     if ce_key not in ce_bucket:
-                        ce_bucket[ce_key] = self._initialize_bucket_entry(record, include_ce=True)
-                    self._accumulate_bucket_entry(ce_bucket[ce_key], record)
+                        ce_bucket[ce_key] = self._initialize_bucket_entry(record, self.config.infra_type, include_ce=True)
+                    self._accumulate_bucket_entry(ce_bucket[ce_key], record, self.config.infra_type)
 
         return agg, per_ce
 
     @staticmethod
-    def build_docs(bucket: Bucket, year: int, month: int, with_ce: bool = False) -> list[OrderedDict[str, Any]]:
+    def build_docs(
+        bucket: Bucket,
+        year: int,
+        month: int,
+        infra_type: str,
+        with_ce: bool = False,
+    ) -> list[OrderedDict[str, Any]]:
         """Turn an accumulated bucket into the JSON document list matching ACC.py schema."""
         dt = datetime(year, month, 1, tzinfo=timezone.utc)
         epoch = datetime(1970, 1, 1, tzinfo=timezone.utc)
         timestamp = int((dt - epoch).total_seconds() * 1000)
 
         idb_tags = list(constants.INFLUXDB_TAGS)
-        produced_doc_fields = list(constants.PRODUCED_DOC_FIELDS)
+        produced_doc_fields = list(constants.PRODUCED_DOC_FIELDS[infra_type])
         if with_ce:
             idb_tags += ["ce"]
             produced_doc_fields.insert(len(constants.INFLUXDB_TAGS), "ce")
@@ -394,13 +407,13 @@ class APELMessageParser:
         for year, month in all_months:
             LOG.info("Writing data for %02d/%d", month, year)
 
-            agg_docs = self.build_docs(agg.get((year, month), {}), year, month, with_ce=False)
-            agg_path = self.config.output_dir / f"data_cpu_acc_{year}_{month}.json"
+            agg_docs = self.build_docs(agg.get((year, month), {}), year, month, self.config.infra_type, with_ce=False)
+            agg_path = self.config.output_dir / f"{self.config.infra_type.lower()}_accounting_data_{year}_{month}.json"
             agg_path.write_text(json.dumps(agg_docs, indent=4), encoding="utf-8")
 
             if per_ce is not None:
-                ce_docs = self.build_docs(per_ce.get((year, month), {}), year, month, with_ce=True)
-                ce_path = self.config.output_dir / f"data_cpu_acc_ce_{year}_{month}.json"
+                ce_docs = self.build_docs(per_ce.get((year, month), {}), year, month, self.config.infra_type, with_ce=True)
+                ce_path = self.config.output_dir / f"{self.config.infra_type.lower()}_accounting_data_ce_{year}_{month}.json"
                 ce_path.write_text(json.dumps(ce_docs, indent=4), encoding="utf-8")
 
             if self.config.publish:
@@ -460,7 +473,7 @@ def get_data_for_period(
     config = ParserConfig(
         output_dir=Path(output_dir),
         messages_dir=messages_dir,
-        infra_type=infra_type,
+        infra_type=constants.APEL_INFRA_TYPES[infra_type],
         months=months,
         lhc_only=lhc_only,
         publish=publish,
@@ -490,7 +503,7 @@ def parse_args() -> argparse.Namespace:
         "--infra-type",
         type=str,
         required=True,
-        choices=[constants.GRID_INFRASTRUCTURE, constants.CLOUD_INFRASTRUCTURE],
+        choices=constants.APEL_INFRA_TYPES.keys(),
         help=(
             "Infrastructure type of data contained in messages of --messages-dir"
         ),
