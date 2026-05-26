@@ -216,6 +216,75 @@ class APELMessageParser:
             "number_of_jobs": number_of_jobs,
         }
 
+    def _extract_cloud_record(self, rec: dict[str, str], msgid: str) -> ParsedAccountingRecord | None:
+        """Convert a cloud APEL record into the normalized internal record shape."""
+        try:
+            year = int(rec.get("Year", 0))
+            month = int(rec.get("Month", 0))
+        except ValueError:
+            return None
+
+        try:
+            date_start = date(year, month, 1)
+        except ValueError:
+            return None
+        if date_start < self.cutoff:
+            return None
+
+        site = rec.get("SiteName", "").strip()
+        vo = _canonicalize_vo(rec.get("VO", "").strip())
+        if not site or not vo:
+            LOG.warning(
+                "Skipping record missing required SiteName/VO (msgid=%s, year=%s, month=%s)",
+                msgid,
+                rec.get("Year"),
+                rec.get("Month"),
+            )
+            return None
+        if self.config.lhc_only and vo.lower() not in constants.LHC_VOS:
+            return None
+
+        benchmark = rec.get("BenchmarkType", "").strip().upper() or constants.UNKNOWN
+        benchmark_factor = _safe_float(rec.get("Benchmark"), default=0.0)
+        cpu_count = max(1, _safe_int(rec.get("CpuCount"), default=1))
+
+        wc_time = _safe_float(rec.get("WallDuration"), default=0.0)
+        wc_time = (wc_time / SECONDS_PER_HOUR) * cpu_count
+        wc_work = wc_time * benchmark_factor
+
+        cpu_time = _safe_float(rec.get("CpuDuration"), default=0.0) / SECONDS_PER_HOUR
+        cpu_work = cpu_time * benchmark_factor
+
+        site_info = self.resolve_site(site, vo, year, month)
+        if site_info is None:
+            if site not in self.warned_sites:
+                LOG.warning("Site %s not found in CRIC - skipping enrichment", site)
+                self.warned_sites.add(site)
+            site_info = {
+                "tier": constants.UNKNOWN,
+                "country": constants.UNKNOWN,
+                "federation": constants.UNKNOWN,
+                "roc": constants.UNKNOWN,
+            }
+
+        return {
+            "year": year,
+            "month": month,
+            "site": site,
+            "vo": vo,
+            "infra": constants.CLOUD_INFRA,
+            "benchmark": benchmark,
+            "tier": site_info["tier"],
+            "country": site_info["country"],
+            "federation": site_info["federation"],
+            "roc": site_info["roc"],
+            "raw_wc_time": wc_time,
+            "raw_wc_work": wc_work,
+            "raw_cpu_time": cpu_time,
+            "raw_cpu_work": cpu_work,
+            "raw_cpu_eff": 0.0,
+        }
+
     @staticmethod
     def _initialize_bucket_entry(
         record: ParsedAccountingRecord,
@@ -257,6 +326,8 @@ class APELMessageParser:
         """Dispatch extraction based on the parser infra type selected from CLI."""
         if self.config.infra_type == constants.GRID_INFRA:
             return self._extract_grid_record(rec, msgid)
+        if self.config.infra_type == constants.CLOUD_INFRA:
+            return self._extract_cloud_record(rec, msgid)
         raise ValueError(f"Unsupported infra type: {self.config.infra_type}")
 
     def resolve_site(self, site_name: str, vo: str, year: int, month: int) -> SiteInfo | None:
