@@ -65,8 +65,8 @@ class ParsedAccountingRecord(TypedDict):
 
 
 MonthKey = tuple[int, int]
-PerCeKey = tuple[str, str, str, str]
-AggKey = tuple[str, str, str]
+PerCeKey = tuple[str, ...]
+AggKey = tuple[str, ...]
 Bucket = dict[tuple[str, ...], dict[str, Any]]
 
 
@@ -322,6 +322,11 @@ class APELMessageParser:
         if infra_type == constants.GRID_INFRA:
             entry["number_of_jobs"] += record["number_of_jobs"]
 
+    @staticmethod
+    def _build_agg_key(record: ParsedAccountingRecord) -> AggKey:
+        """Build aggregate bucket key from the canonical InfluxDB tag set."""
+        return tuple(str(record[tag]) for tag in constants.INFLUXDB_TAGS)
+
     def _extract_record(self, rec: dict[str, str], msgid: str) -> ParsedAccountingRecord | None:
         """Dispatch extraction based on the parser infra type selected from CLI."""
         if self.config.infra_type == constants.GRID_INFRA:
@@ -412,14 +417,14 @@ class APELMessageParser:
 
                 month_key: MonthKey = (record["year"], record["month"])
 
-                agg_key: AggKey = (record["site"], record["vo"], record["benchmark"])
+                agg_key = self._build_agg_key(record)
                 agg_bucket = agg.setdefault(month_key, {})
                 if agg_key not in agg_bucket:
                     agg_bucket[agg_key] = self._initialize_bucket_entry(record, self.config.infra_type, include_ce=False)
                 self._accumulate_bucket_entry(agg_bucket[agg_key], record, self.config.infra_type)
 
                 if per_ce is not None:
-                    ce_key: PerCeKey = (record["site"], record["vo"], record["ce"], record["benchmark"])
+                    ce_key = self._build_agg_key(record) + (str(record["ce"]),)
                     ce_bucket = per_ce.setdefault(month_key, {})
                     if ce_key not in ce_bucket:
                         ce_bucket[ce_key] = self._initialize_bucket_entry(record, self.config.infra_type, include_ce=True)

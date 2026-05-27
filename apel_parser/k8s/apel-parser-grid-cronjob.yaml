@@ -61,7 +61,7 @@ spec:
                 - name: MESSAGE_PRODUCER
                   value: "wlcgops"
                 - name: MESSAGE_INFLUXDB_MEASUREMENT
-                  value: "accounting.wau.summary_apel_5"
+                  value: "accounting.wau.summary_apel_6"
               volumeMounts:
                 - name: apel-consumer-output
                   mountPath: /var/spool/apel
