@@ -20,7 +20,7 @@ APEL_DIRQ_SCHEMA: Final[dict[str, str]] = {
 
 CRIC_RCSITE_API: Final[str] = "https://wlcg-cric.cern.ch/api/core/rcsite/query/?json&state=ANY"
 CRIC_REQUEST_TIMEOUT_SECONDS: Final[int] = 30
-IGTF_TRUST_BUNDLE_PATH: Final[str] = "/cvmfs/grid.cern.ch/etc/grid-security/certificates"
+IGTF_TRUST_BUNDLE_PATH: Final[str] = os.getenv("IGTF_TRUST_BUNDLE_PATH")
 
 UNKNOWN: Final[str] = "UNKNOWN"
 

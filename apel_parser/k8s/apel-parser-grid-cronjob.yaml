@@ -36,6 +36,8 @@ spec:
                 # - "--lhc-only"
                 - "--publish"
               env:
+                - name: IGTF_TRUST_BUNDLE_PATH
+                  value: "/cvmfs/grid.cern.ch/etc/grid-security/certificates"
                 - name: MQ_USERNAME
                   valueFrom:
                     secretKeyRef:
