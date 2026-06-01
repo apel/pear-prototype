@@ -61,7 +61,7 @@ class ParsedAccountingRecord(TypedDict):
     raw_cpu_work: float
     raw_cpu_eff: float
     ce: NotRequired[str]
-    number_of_jobs: NotRequired[int]
+    job_count: NotRequired[int]
 
 
 MonthKey = tuple[int, int]
@@ -186,7 +186,7 @@ class APELMessageParser:
         cpu_time = _safe_float(rec.get("CpuDuration"), default=0.0) / SECONDS_PER_HOUR
         _, cpu_work = self.parse_normalised_computing_duration(rec.get("NormalisedCpuDuration"))
         cpu_work = cpu_work / SECONDS_PER_HOUR
-        number_of_jobs = _safe_int(rec.get("NumberOfJobs"), default=0)
+        job_count = _safe_int(rec.get("NumberOfJobs"), default=0)
 
         site_info = self.resolve_site(site, vo, year, month)
         if site_info is None:
@@ -217,7 +217,7 @@ class APELMessageParser:
             "raw_cpu_time": cpu_time,
             "raw_cpu_work": cpu_work,
             "raw_cpu_eff": 0.0,
-            "number_of_jobs": number_of_jobs,
+            "job_count": job_count,
         }
 
     def _extract_cloud_record(self, rec: dict[str, str], msgid: str) -> ParsedAccountingRecord | None:
@@ -312,7 +312,7 @@ class APELMessageParser:
         for field in constants.COMMON_ACCOUNTING_FIELDS:
             entry[field] = 0.0
         if infra_type == constants.GRID_INFRA:
-            entry["number_of_jobs"] = 0
+            entry["job_count"] = 0
 
         return entry
 
@@ -324,7 +324,7 @@ class APELMessageParser:
         entry["raw_cpu_time"] += record["raw_cpu_time"]
         entry["raw_cpu_work"] += record["raw_cpu_work"]
         if infra_type == constants.GRID_INFRA:
-            entry["number_of_jobs"] += record["number_of_jobs"]
+            entry["job_count"] += record["job_count"]
 
     @staticmethod
     def _build_agg_key(record: ParsedAccountingRecord) -> AggKey:

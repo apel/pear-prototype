@@ -75,7 +75,7 @@ COMMON_ACCOUNTING_FIELDS: Final[list[str]] = [
     "raw_cpu_eff",
 ]
 GRID_ONLY_ACCOUNTING_FIELDS: Final[list[str]] = [
-    "number_of_jobs",
+    "job_count",
 ]
 CLOUD_ONLY_ACCOUNTING_FIELDS: Final[list[str]] = [
 ]
