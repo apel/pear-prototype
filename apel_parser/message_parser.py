@@ -62,6 +62,12 @@ class ParsedAccountingRecord(TypedDict):
     raw_cpu_eff: float
     ce: NotRequired[str]
     job_count: NotRequired[int]
+    memory_used: NotRequired[float]
+    disk_used: NotRequired[float]
+    vm_count: NotRequired[int]
+    cpu_core_count: NotRequired[int]
+    network_in: NotRequired[float]
+    network_out: NotRequired[float]
 
 
 MonthKey = tuple[int, int]
@@ -258,6 +264,12 @@ class APELMessageParser:
 
         cpu_time = _safe_float(rec.get("CpuDuration"), default=0.0) / SECONDS_PER_HOUR
         cpu_work = cpu_time * benchmark_factor
+        memory_used = _safe_float(rec.get("Memory"), default=0.0)
+        disk_used = _safe_float(rec.get("Disk"), default=0.0)
+        vm_count = _safe_int(rec.get("NumberOfVMs"), default=0)
+        cpu_core_count = _safe_int(rec.get("CpuCount"), default=0)
+        network_in = _safe_float(rec.get("NetworkInbound"), default=0.0)
+        network_out = _safe_float(rec.get("NetworkOutbound"), default=0.0)
 
         site_info = self.resolve_site(site, vo, year, month)
         if site_info is None:
@@ -287,6 +299,12 @@ class APELMessageParser:
             "raw_cpu_time": cpu_time,
             "raw_cpu_work": cpu_work,
             "raw_cpu_eff": 0.0,
+            "memory_used": memory_used,
+            "disk_used": disk_used,
+            "vm_count": vm_count,
+            "cpu_core_count": cpu_core_count,
+            "network_in": network_in,
+            "network_out": network_out,
         }
 
     @staticmethod
@@ -313,6 +331,13 @@ class APELMessageParser:
             entry[field] = 0.0
         if infra_type == constants.GRID_INFRA:
             entry["job_count"] = 0
+        elif infra_type == constants.CLOUD_INFRA:
+            entry["memory_used"] = 0.0
+            entry["disk_used"] = 0.0
+            entry["vm_count"] = 0
+            entry["cpu_core_count"] = 0
+            entry["network_in"] = 0.0
+            entry["network_out"] = 0.0
 
         return entry
 
@@ -325,6 +350,13 @@ class APELMessageParser:
         entry["raw_cpu_work"] += record["raw_cpu_work"]
         if infra_type == constants.GRID_INFRA:
             entry["job_count"] += record["job_count"]
+        elif infra_type == constants.CLOUD_INFRA:
+            entry["memory_used"] += record["memory_used"]
+            entry["disk_used"] += record["disk_used"]
+            entry["vm_count"] += record["vm_count"]
+            entry["cpu_core_count"] += record["cpu_core_count"]
+            entry["network_in"] += record["network_in"]
+            entry["network_out"] += record["network_out"]
 
     @staticmethod
     def _build_agg_key(record: ParsedAccountingRecord) -> AggKey:

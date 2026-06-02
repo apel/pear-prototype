@@ -78,6 +78,12 @@ GRID_ONLY_ACCOUNTING_FIELDS: Final[list[str]] = [
     "job_count",
 ]
 CLOUD_ONLY_ACCOUNTING_FIELDS: Final[list[str]] = [
+    "memory_used",
+    "disk_used",
+    "vm_count",
+    "cpu_core_count",
+    "network_in",
+    "network_out",
 ]
 
 SITE_METADATA_FIELDS: Final[list[str]] = [
