@@ -1,5 +1,5 @@
-FROM gitlab-registry.cern.ch/linuxsupport/alma9-base@sha256:f265c82278e3c7269a2a3707f4aba7ef6c2981e81e516407c3e0ea398e50e5f9
-LABEL org.opencontainers.image.base.created="2026-04-01"
+FROM gitlab-registry.cern.ch/linuxsupport/alma9-base@sha256:3298e9924ce26734aced8ffa054dc7a81f0ac5b48ad4979a888e70de358ff144
+LABEL org.opencontainers.image.base.created="2026-06-03"
 
 # Install SSM dependecies
 RUN dnf install -y \
