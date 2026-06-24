@@ -87,11 +87,10 @@ CLOUD_ONLY_ACCOUNTING_FIELDS: Final[list[str]] = [
 ]
 
 SITE_METADATA_FIELDS: Final[list[str]] = [
-    "roc"
 ]
 
 INFLUXDB_TAGS: Final[list[str]] = [
-    "vo", "tier", "country", "federation", "site", "infra", "benchmark"
+    "vo", "tier", "country", "federation", "site", "infra", "benchmark", "roc"
 ]
 
 PRODUCED_DOC_METADATA_FIELDS: Final[list[str]] = [
