@@ -5357,52 +5357,33 @@
           "text": "site",
           "value": "site"
         },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_MONIT_IDB_WLCGOPS}"
+        },
+        "definition": "SHOW TAG KEYS FROM \"$influxdb_measurement\"",
         "hide": 0,
         "includeAll": false,
         "label": "Group By",
         "multi": false,
         "name": "groupby",
-        "options": [
+        "options": [],
+        "query": {
+          "query": "SHOW TAG KEYS FROM \"$influxdb_measurement\"",
+          "refId": "InfluxVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 1,
+        "staticOptions": [
           {
-            "selected": false,
-            "text": "infra",
+            "text": "infrastructure",
             "value": "infra"
-          },
-          {
-            "selected": false,
-            "text": "benchmark",
-            "value": "benchmark"
-          },
-          {
-            "selected": false,
-            "text": "vo",
-            "value": "vo"
-          },
-          {
-            "selected": false,
-            "text": "tier",
-            "value": "tier"
-          },
-          {
-            "selected": false,
-            "text": "country",
-            "value": "country"
-          },
-          {
-            "selected": false,
-            "text": "federation",
-            "value": "federation"
-          },
-          {
-            "selected": true,
-            "text": "site",
-            "value": "site"
           }
         ],
-        "query": "infra, benchmark, vo, tier, country, federation, site",
-        "queryValue": "",
-        "skipUrlSync": false,
-        "type": "custom"
+        "staticOptionsOrder": "sorted",
+        "type": "query"
       }
     ]
   },
