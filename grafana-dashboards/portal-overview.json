@@ -5307,7 +5307,7 @@
           "type": "influxdb",
           "uid": "${DS_MONIT_IDB_WLCGOPS}"
         },
-        "definition": "SELECT DISTINCT(\"roc\") FROM \"$influxdb_measurement\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
+        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"roc\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
         "hide": 0,
         "includeAll": true,
         "label": "ROC",
@@ -5315,7 +5315,7 @@
         "name": "roc",
         "options": [],
         "query": {
-          "query": "SELECT DISTINCT(\"roc\") FROM \"$influxdb_measurement\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
+          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"roc\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
           "refId": "InfluxVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
