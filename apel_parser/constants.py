@@ -90,7 +90,7 @@ SITE_METADATA_FIELDS: Final[list[str]] = [
 ]
 
 INFLUXDB_TAGS: Final[list[str]] = [
-    "vo", "tier", "country", "federation", "site", "infra", "benchmark", "roc"
+    "vo", "tier", "country", "federation", "site", "infra", "benchmark", "ngi"
 ]
 
 PRODUCED_DOC_METADATA_FIELDS: Final[list[str]] = [

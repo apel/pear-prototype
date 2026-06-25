@@ -216,7 +216,7 @@ class APELMessageParser:
             "tier": site_info["tier"],
             "country": site_info["country"],
             "federation": site_info["federation"],
-            "roc": site_info["roc"],
+            "ngi": site_info["roc"],
             "ce": ce,
             "raw_wc_time": wc_time,
             "raw_wc_work": wc_work,
@@ -293,7 +293,7 @@ class APELMessageParser:
             "tier": site_info["tier"],
             "country": site_info["country"],
             "federation": site_info["federation"],
-            "roc": site_info["roc"],
+            "ngi": site_info["roc"],
             "raw_wc_time": wc_time,
             "raw_wc_work": wc_work,
             "raw_cpu_time": cpu_time,
@@ -322,7 +322,7 @@ class APELMessageParser:
             "tier": record["tier"],
             "country": record["country"],
             "federation": record["federation"],
-            "roc": record["roc"],
+            "ngi": record["ngi"],
         }
         if infra_type == constants.GRID_INFRA and include_ce:
             entry["ce"] = record["ce"]
