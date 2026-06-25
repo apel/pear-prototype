@@ -5307,15 +5307,15 @@
           "type": "influxdb",
           "uid": "${DS_MONIT_IDB_WLCGOPS}"
         },
-        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"roc\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
+        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"ngi\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
         "hide": 0,
         "includeAll": true,
-        "label": "ROC",
+        "label": "NGI",
         "multi": true,
         "name": "roc",
         "options": [],
         "query": {
-          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"roc\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
+          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"ngi\" WHERE $timeFilter AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/",
           "refId": "InfluxVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
