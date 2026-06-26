@@ -12,7 +12,7 @@
       "name": "VAR_INFLUXDB_MEASUREMENT",
       "type": "constant",
       "label": "influxdb_measurement",
-      "value": "accounting.wau.summary_apel_7",
+      "value": "accounting.wau.summary_apel_8",
       "description": ""
     }
   ],
