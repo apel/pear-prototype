@@ -54,7 +54,7 @@ class ParsedAccountingRecord(TypedDict):
     tier: str
     country: str
     federation: str
-    roc: str
+    ngi: str
     raw_wc_time: float
     raw_wc_work: float
     raw_cpu_time: float
