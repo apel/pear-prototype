@@ -5175,57 +5175,6 @@
           "type": "influxdb",
           "uid": "${DS_MONIT_IDB_WLCGOPS}"
         },
-        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"benchmark\" WHERE $timeFilter",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Benchmark",
-        "multi": true,
-        "name": "benchmark",
-        "options": [],
-        "query": {
-          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"benchmark\" WHERE $timeFilter",
-          "refId": "InfluxVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "allValue": ".*",
-        "current": {},
-        "datasource": {
-          "type": "influxdb",
-          "uid": "${DS_MONIT_IDB_WLCGOPS}"
-        },
-        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"vo\" WHERE $timeFilter AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"ngi\" =~ /^$ngi$/ AND \"federation\" =~ /^$federation$/",
-        "hide": 0,
-        "includeAll": true,
-        "label": "VO",
-        "multi": true,
-        "name": "vo",
-        "options": [],
-        "query": {
-          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"vo\" WHERE $timeFilter AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"ngi\" =~ /^$ngi$/ AND \"federation\" =~ /^$federation$/",
-          "refId": "InfluxVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": ".*",
-        "current": {},
-        "datasource": {
-          "type": "influxdb",
-          "uid": "${DS_MONIT_IDB_WLCGOPS}"
-        },
         "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"tier\" WHERE $timeFilter",
         "hide": 0,
         "includeAll": true,
@@ -5241,10 +5190,7 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "allValue": ".*",
@@ -5268,37 +5214,7 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": ".*",
-        "current": {},
-        "datasource": {
-          "type": "influxdb",
-          "uid": "${DS_MONIT_IDB_WLCGOPS}"
-        },
-        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"federation\" WHERE $timeFilter",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Federation",
-        "multi": true,
-        "name": "federation",
-        "options": [],
-        "query": {
-          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"federation\" WHERE $timeFilter",
-          "refId": "InfluxVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "allValue": ".*",
@@ -5331,6 +5247,54 @@
           "type": "influxdb",
           "uid": "${DS_MONIT_IDB_WLCGOPS}"
         },
+        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"federation\" WHERE $timeFilter",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Federation",
+        "multi": true,
+        "name": "federation",
+        "options": [],
+        "query": {
+          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"federation\" WHERE $timeFilter",
+          "refId": "InfluxVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {},
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_MONIT_IDB_WLCGOPS}"
+        },
+        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"vo\" WHERE $timeFilter AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"ngi\" =~ /^$ngi$/ AND \"federation\" =~ /^$federation$/",
+        "hide": 0,
+        "includeAll": true,
+        "label": "VO",
+        "multi": true,
+        "name": "vo",
+        "options": [],
+        "query": {
+          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"vo\" WHERE $timeFilter AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"ngi\" =~ /^$ngi$/ AND \"federation\" =~ /^$federation$/",
+          "refId": "InfluxVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {},
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_MONIT_IDB_WLCGOPS}"
+        },
         "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"site\" WHERE $timeFilter AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"ngi\" =~ /^$ngi$/ AND \"federation\" =~ /^$federation$/",
         "hide": 0,
         "includeAll": true,
@@ -5346,10 +5310,31 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {},
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_MONIT_IDB_WLCGOPS}"
+        },
+        "definition": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"benchmark\" WHERE $timeFilter",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Benchmark",
+        "multi": true,
+        "name": "benchmark",
+        "options": [],
+        "query": {
+          "query": "SHOW TAG VALUES FROM \"$influxdb_measurement\" WITH KEY = \"benchmark\" WHERE $timeFilter",
+          "refId": "InfluxVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
       },
       {
         "current": {},
@@ -5405,6 +5390,6 @@
   "timezone": "utc",
   "title": "EGI Accounting Portal Replacement & PEAR Prototype",
   "uid": "ffidbzy363280j",
-  "version": 89,
+  "version": 90,
   "weekStart": ""
 }
