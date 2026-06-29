@@ -91,7 +91,11 @@ def _safe_int(value: Any, default: int = 0) -> int:
     try:
         return int(value)
     except (TypeError, ValueError):
-        return default
+        try:
+            parsed = float(value)
+        except (TypeError, ValueError):
+            return default
+        return int(parsed) if parsed.is_integer() else default
 
 
 def _canonicalize_vo(raw_vo: str) -> str:
