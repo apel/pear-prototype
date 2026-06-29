@@ -344,7 +344,7 @@
           ]
         }
       ],
-      "title": "Computing Summary",
+      "title": "Summary: CPU consumption metrics",
       "transformations": [
         {
           "id": "organize",
@@ -545,7 +545,7 @@
           ]
         }
       ],
-      "title": "Computing Summary - Grid Jobs",
+      "title": "Summary: HTC Number of Jobs",
       "transformations": [
         {
           "id": "organize",
@@ -782,7 +782,7 @@
           ]
         }
       ],
-      "title": "Computing Summary - Cloud Jobs",
+      "title": "Summary: Cloud Compute specific metrics",
       "transformations": [
         {
           "id": "organize",
