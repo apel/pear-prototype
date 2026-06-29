@@ -4628,7 +4628,10 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "text": "site",
+          "value": "site"
+        },
         "datasource": {
           "type": "influxdb",
           "uid": "${DS_MONIT_IDB_WLCGOPS}"
