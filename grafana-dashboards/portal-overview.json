@@ -85,6 +85,30 @@
   "links": [
     {
       "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Acceptable Use Policy",
+      "tooltip": "Acceptable Use Policy",
+      "type": "link",
+      "url": "/../terms_of_use"
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Privacy Notice",
+      "tooltip": "Privacy Notice",
+      "type": "link",
+      "url": "/../data_protection"
+    },
+    {
+      "asDropdown": false,
       "icon": "external link",
       "includeVars": false,
       "keepTime": false,
