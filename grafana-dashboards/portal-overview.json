@@ -110,6 +110,2030 @@
         "h": 1,
         "w": 24,
         "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [],
+      "title": "Historical Charts",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"raw_wc_time\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Wall-Clock Time (core-hours)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"raw_wc_work\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_work"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Wall-Clock Work (HS23 core-hours)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 55,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"raw_cpu_time\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "CPU Time (hours)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 56,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"raw_cpu_work\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_work"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "CPU Work (HS23 hours)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 6,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "max": 1.25,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent"
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 6,
+        "y": 17
+      },
+      "id": 30,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"raw_cpu_eff\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_cpu_eff"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  " / 100"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "CPU Efficiency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 71,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - High Throughput\n</h5>",
+        "mode": "html"
+      },
+      "pluginVersion": "11.6.14",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 6,
+        "y": 27
+      },
+      "id": 73,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"job_count\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Number of Jobs",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 72,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - Cloud Compute\n</h5>",
+        "mode": "html"
+      },
+      "pluginVersion": "11.6.14",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "decmbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 37
+      },
+      "id": 81,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"memory_used\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Memory Used",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 37
+      },
+      "id": 89,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"disk_used\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Disk Used",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 45
+      },
+      "id": 83,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"vm_count\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Number of VMs",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 45
+      },
+      "id": 84,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"cpu_core_count\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Number of Cores",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 53
+      },
+      "id": 82,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"network_in\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Inbound Network Traffic",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_MONIT_IDB_WLCGOPS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 53
+      },
+      "id": 90,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "alias": "$tag_$groupby",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_MONIT_IDB_WLCGOPS}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "$groupby"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "$influxdb_measurement",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"network_out\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "raw_wc_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "vo",
+              "operator": "=~",
+              "value": "/^$vo$/"
+            },
+            {
+              "condition": "AND",
+              "key": "tier",
+              "operator": "=~",
+              "value": "/^$tier$/"
+            },
+            {
+              "condition": "AND",
+              "key": "country",
+              "operator": "=~",
+              "value": "/^$country$/"
+            },
+            {
+              "condition": "AND",
+              "key": "federation",
+              "operator": "=~",
+              "value": "/^$federation$/"
+            },
+            {
+              "condition": "AND",
+              "key": "site",
+              "operator": "=~",
+              "value": "/^$site$/"
+            }
+          ]
+        }
+      ],
+      "title": "Outbound Network Traffic",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
         "y": 61
       },
       "id": 6,
@@ -2386,2030 +4410,6 @@
       ],
       "title": "Outbound Network Traffic",
       "type": "piechart"
-    },
-    {
-      "collapsed": false,
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 2,
-      "panels": [],
-      "title": "Historical Charts",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 1
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"raw_wc_time\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Wall-Clock Time (core-hours)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 1
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"raw_wc_work\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_work"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Wall-Clock Work (HS23 core-hours)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 9
-      },
-      "id": 55,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"raw_cpu_time\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "CPU Time (hours)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 9
-      },
-      "id": 56,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"raw_cpu_work\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_work"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "CPU Work (HS23 hours)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 6,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "always",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "max": 1.25,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "transparent"
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 6,
-        "y": 17
-      },
-      "id": 30,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"raw_cpu_eff\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_cpu_eff"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  " / 100"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "CPU Efficiency",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 24,
-        "x": 0,
-        "y": 25
-      },
-      "id": 71,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - High Throughput\n</h5>",
-        "mode": "html"
-      },
-      "pluginVersion": "11.6.14",
-      "transparent": true,
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 6,
-        "y": 27
-      },
-      "id": 73,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"job_count\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Number of Jobs",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 24,
-        "x": 0,
-        "y": 35
-      },
-      "id": 72,
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - Cloud Compute\n</h5>",
-        "mode": "html"
-      },
-      "pluginVersion": "11.6.14",
-      "transparent": true,
-      "type": "text"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "decmbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 37
-      },
-      "id": 81,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"memory_used\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Memory Used",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "decgbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 37
-      },
-      "id": 89,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"disk_used\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Disk Used",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 45
-      },
-      "id": 83,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"vm_count\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Number of VMs",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 45
-      },
-      "id": 84,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"cpu_core_count\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Number of Cores",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 53
-      },
-      "id": 82,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"network_in\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Inbound Network Traffic",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_MONIT_IDB_WLCGOPS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 53
-      },
-      "id": 90,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "alias": "$tag_$groupby",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_MONIT_IDB_WLCGOPS}"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "1d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "$groupby"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "$influxdb_measurement",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"network_out\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "raw_wc_time"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "vo",
-              "operator": "=~",
-              "value": "/^$vo$/"
-            },
-            {
-              "condition": "AND",
-              "key": "tier",
-              "operator": "=~",
-              "value": "/^$tier$/"
-            },
-            {
-              "condition": "AND",
-              "key": "country",
-              "operator": "=~",
-              "value": "/^$country$/"
-            },
-            {
-              "condition": "AND",
-              "key": "federation",
-              "operator": "=~",
-              "value": "/^$federation$/"
-            },
-            {
-              "condition": "AND",
-              "key": "site",
-              "operator": "=~",
-              "value": "/^$site$/"
-            }
-          ]
-        }
-      ],
-      "title": "Outbound Network Traffic",
-      "type": "timeseries"
     }
   ],
   "schemaVersion": 41,
