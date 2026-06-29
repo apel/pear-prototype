@@ -1389,7 +1389,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h5 style=\"font-weight: normal;\">\n  Part-to-Whole Charts - Grid Jobs\n</h5>",
+        "content": "<h5 style=\"font-weight: normal;\">\n  Part-to-Whole Charts - High Throughput\n</h5>",
         "mode": "html"
       },
       "pluginVersion": "11.6.14",
@@ -1552,7 +1552,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h5 style=\"font-weight: normal;\">\n  Part-to-Whole Charts - Cloud Jobs\n</h5>",
+        "content": "<h5 style=\"font-weight: normal;\">\n  Part-to-Whole Charts - Cloud Compute\n</h5>",
         "mode": "html"
       },
       "pluginVersion": "11.6.14",
@@ -3245,7 +3245,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - Grid Jobs\n</h5>",
+        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - High Throughput\n</h5>",
         "mode": "html"
       },
       "pluginVersion": "11.6.14",
@@ -3432,7 +3432,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - Cloud Jobs\n</h5>",
+        "content": "<h5 style=\"font-weight: normal;\">\n  Historical Charts - Cloud Compute\n</h5>",
         "mode": "html"
       },
       "pluginVersion": "11.6.14",
@@ -4437,7 +4437,14 @@
       },
       {
         "allValue": ".*",
-        "current": {},
+        "current": {
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": {
           "type": "influxdb",
           "uid": "${DS_MONIT_IDB_WLCGOPS}"
@@ -4455,8 +4462,24 @@
         },
         "refresh": 1,
         "regex": "",
+        "regexApplyTo": "value",
+        "staticOptions": [
+          {
+            "text": "Cloud Compute",
+            "value": "Cloud"
+          },
+          {
+            "text": "High Throughput",
+            "value": "Grid"
+          },
+          {
+            "text": "Local",
+            "value": "Grid-Local"
+          }
+        ],
+        "staticOptionsOrder": "sorted",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "type": "query"
       },
       {
