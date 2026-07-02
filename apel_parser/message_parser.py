@@ -489,9 +489,9 @@ class APELMessageParser:
 
         docs: list[OrderedDict[str, Any]] = []
         for entry in bucket.values():
-            wc_time = _safe_float(entry.get("raw_wc_time"), default=0.0)
-            cpu_time = _safe_float(entry.get("raw_cpu_time"), default=0.0)
-            cpu_eff = cpu_time / wc_time if wc_time > 0 else 0.0
+            wc_work = _safe_float(entry.get("raw_wc_work"), default=0.0)
+            cpu_work = _safe_float(entry.get("raw_cpu_work"), default=0.0)
+            cpu_eff = cpu_work / wc_work if wc_work > 0 else 0.0
 
             doc: OrderedDict[str, Any] = OrderedDict()
             for key in produced_doc_fields:
