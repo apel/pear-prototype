@@ -106,20 +106,6 @@
       "tooltip": "Privacy Notice",
       "type": "link",
       "url": "/../data_protection"
-    },
-    {
-      "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [
-        "wau_main"
-      ],
-      "targetBlank": false,
-      "title": "",
-      "tooltip": "",
-      "type": "dashboards",
-      "url": ""
     }
   ],
   "liveNow": false,
