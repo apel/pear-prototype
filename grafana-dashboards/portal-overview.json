@@ -904,7 +904,7 @@
           "measurement": "$influxdb_measurement",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"raw_cpu_eff\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
+          "query": "SELECT SUM(\"raw_cpu_work\") / SUM(\"raw_wc_work\") FROM \"$influxdb_measurement\" WHERE (\"infra\" =~ /^$infra$/ AND \"benchmark\" =~ /^$benchmark$/ AND \"vo\" =~ /^$vo$/ AND \"tier\" =~ /^$tier$/ AND \"country\" =~ /^$country$/ AND \"federation\" =~ /^$federation$/ AND \"ngi\" =~ /^$ngi$/ AND \"site\" =~ /^$site$/) AND $timeFilter GROUP BY time(1d), \"$groupby\" fill(none)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -2245,7 +2245,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Mean CPU Efficiency"
+              "options": "CPU Efficiency"
             },
             "properties": [
               {
@@ -2317,7 +2317,7 @@
           "measurement": "$influxdb_measurement",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "    SELECT\n        SUM(\"raw_wc_time\") AS \"Wall-Clock Time (core-hours)\",\n        SUM(\"raw_wc_work\") AS \"Wall-Clock Work (HS23 core-hours)\",\n        SUM(\"raw_cpu_time\") AS \"CPU Time (hours)\",\n        SUM(\"raw_cpu_work\") AS \"CPU Work (HS23 hours)\",\n        MEAN(\"raw_cpu_eff\") AS \"Mean CPU Efficiency\"\n    FROM \"$influxdb_measurement\"\n    WHERE\n        $timeFilter\n        AND \"infra\" =~ /^$infra$/\n        AND \"benchmark\" =~ /^$benchmark$/\n        AND \"vo\" =~ /^$vo$/\n        AND \"tier\" =~ /^$tier$/\n        AND \"country\" =~ /^$country$/\n        AND \"federation\" =~ /^$federation$/\n        AND \"ngi\" =~ /^$ngi$/\n        AND \"site\" =~ /^$site$/\nGROUP BY\n    \"$groupby\"\n    fill(none)",
+          "query": "    SELECT\n        SUM(\"raw_wc_time\") AS \"Wall-Clock Time (core-hours)\",\n        SUM(\"raw_wc_work\") AS \"Wall-Clock Work (HS23 core-hours)\",\n        SUM(\"raw_cpu_time\") AS \"CPU Time (hours)\",\n        SUM(\"raw_cpu_work\") AS \"CPU Work (HS23 hours)\",\n        SUM(\"raw_cpu_work\") / SUM(\"raw_wc_work\") AS \"CPU Efficiency\"\n    FROM \"$influxdb_measurement\"\n    WHERE\n        $timeFilter\n        AND \"infra\" =~ /^$infra$/\n        AND \"benchmark\" =~ /^$benchmark$/\n        AND \"vo\" =~ /^$vo$/\n        AND \"tier\" =~ /^$tier$/\n        AND \"country\" =~ /^$country$/\n        AND \"federation\" =~ /^$federation$/\n        AND \"ngi\" =~ /^$ngi$/\n        AND \"site\" =~ /^$site$/\nGROUP BY\n    \"$groupby\"\n    fill(none)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
